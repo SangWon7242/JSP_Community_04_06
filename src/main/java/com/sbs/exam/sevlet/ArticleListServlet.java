@@ -43,6 +43,9 @@ public class ArticleListServlet extends HttpServlet {
 
       List<Map<String, Object>> articleRows = dbUtil.selectRows(conn, sql);
 
+      req.setAttribute("articleRows", articleRows);
+      req.getRequestDispatcher("../article/list.jsp").forward(req, resp);
+
     } catch (SQLException e) {
       e.printStackTrace();
     } finally {
