@@ -20,6 +20,9 @@ import java.util.Map;
 public class ArticleDetailServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    Rq rq = new Rq(req, resp);
+
+
     // DB 연결시작
     Connection conn = null;
     try {
@@ -36,16 +39,14 @@ public class ArticleDetailServlet extends HttpServlet {
 
     try {
       conn = DriverManager.getConnection(url, user, password);
-      DBUtil dbUtil = new DBUtil();
-
-      int id = Integer.parseInt(req.getParameter("id"));
+      int id = rq.getIntParam("id", 0);
 
       SecSql sql = new SecSql();
       sql.append("SELECT *");
       sql.append("FROM article");
       sql.append("WHERE id = ?", id);
 
-      Map<String, Object> articleRow = dbUtil.selectRow(conn, sql);
+      Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
 
       req.setAttribute("articleRow", articleRow);
       req.getRequestDispatcher("../article/detail.jsp").forward(req, resp);

@@ -35,13 +35,12 @@ public class ArticleListServlet extends HttpServlet {
 
     try {
       conn = DriverManager.getConnection(url, user, password);
-      DBUtil dbUtil = new DBUtil();
 
       SecSql sql = new SecSql();
       sql.append("SELECT *");
       sql.append("FROM article");
 
-      List<Map<String, Object>> articleRows = dbUtil.selectRows(conn, sql);
+      List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
 
       req.setAttribute("articleRows", articleRows);
       req.getRequestDispatcher("../article/list.jsp").forward(req, resp);
