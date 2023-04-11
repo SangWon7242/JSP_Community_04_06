@@ -5,6 +5,8 @@
 
 <%
   List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getAttribute("articleRows");
+  int cPage = (int) request.getAttribute("page");
+  int totalPage = (int) request.getAttribute("totalPage");
 %>
 
 <!doctype html>
@@ -47,6 +49,18 @@
         <% } %>
     </tbody>
   </table>
+
+  <style>
+    .page > a.red {
+      color: red;
+    }
+  </style>
+
+  <div class="page">
+    <% for(int i = 1; i <= totalPage; i++) { %>
+      <a class="<%= cPage == i ? "red" : "" %>" href="list?page=<%=i%>"><%=i%></a>
+    <% } %>
+  </div>
 
   <div>
     <a href="../home/main">홈으로 돌아가기</a>
