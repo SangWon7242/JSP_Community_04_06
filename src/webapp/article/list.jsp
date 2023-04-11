@@ -32,7 +32,11 @@
           <td><%= articleRow.get("id")%>번</td>
           <td><%= articleRow.get("regDate")%></td>
           <td><%= articleRow.get("updateDate")%></td>
-          <td><%= articleRow.get("title")%></td>
+          <td>
+            <a href="detail?id=<%= (int) articleRow.get("id")%>">
+              <%= articleRow.get("title")%>
+            </a>
+          </td>
         </tr>
         <% } %>
     </tbody>
