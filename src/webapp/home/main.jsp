@@ -10,6 +10,8 @@
 
   <div>
     <a href="../article/list">게시물 리스트</a>
+    &nbsp;
+    <a href="../member/join">회원가입</a>
   </div>
 
 </body>
