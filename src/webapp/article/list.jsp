@@ -86,7 +86,7 @@
     <% } %>
 
     <% if( cPage < totalPage ) { %>
-    <a href="list?page=<%= totalPage %>">▶</a>
+      <a href="list?page=<%= totalPage %>">▶</a>
     <% } %>
   </div>
 
