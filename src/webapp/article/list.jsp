@@ -16,6 +16,12 @@
 </head>
 <body>
   <h1>게시물 리스트</h1>
+
+  <div>
+    <a href="../home/main">홈으로 돌아가기</a>
+    &nbsp;
+    <a href="write">게시물 작성</a>
+  </div>
   
   <table border="1" style="text-align:center;">
     <colgroup>
@@ -61,11 +67,6 @@
       <a class="<%= cPage == i ? "red" : "" %>" href="list?page=<%=i%>"><%=i%></a>
     <% } %>
   </div>
-
-  <div>
-    <a href="../home/main">홈으로 돌아가기</a>
-  </div>
-
 
 </body>
 </html>

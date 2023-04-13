@@ -41,7 +41,7 @@ public class ArticleListServlet extends HttpServlet {
       conn = DriverManager.getConnection(url, user, password);
 
       int page = rq.getIntParam("page", 1);
-      int itemInAPage = 20;
+      int itemInAPage = 10;
       int limitFrom = (page - 1) * itemInAPage;
 
       SecSql sql = SecSql.from("SELECT COUNT(*) AS cnt");
@@ -76,5 +76,10 @@ public class ArticleListServlet extends HttpServlet {
       }
     }
     // DB 연결 끝
+  }
+
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    doGet(req, resp);
   }
 }
