@@ -77,7 +77,7 @@ public class DispatcherServlet extends HttpServlet {
         ArticleController articleController = new ArticleController(rq, conn);
 
         if(actionMethodName.equals("list")) {
-          articleController.actionList();
+          articleController.actionList(rq);
         }
       }
 
