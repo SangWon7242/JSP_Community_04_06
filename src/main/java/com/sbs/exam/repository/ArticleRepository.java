@@ -1,9 +1,11 @@
 package com.sbs.exam.repository;
 
+import com.sbs.exam.dto.Article;
 import com.sbs.exam.util.DBUtil;
 import com.sbs.exam.util.SecSql;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +23,7 @@ public class ArticleRepository {
     return totalCount;
   }
 
-  public List<Map<String, Object>> getArticleRows(int limitFrom, int itemInAPage) {
+  public List<Article> getArticles(int limitFrom, int itemInAPage) {
     SecSql sql = new SecSql();
     sql.append("SELECT *");
     sql.append("FROM article");
@@ -30,6 +32,12 @@ public class ArticleRepository {
 
     List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
 
-    return articleRows;
+    List<Article> articles = new ArrayList<>();
+
+    for(Map<String, Object> articleRow : articleRows) {
+      articles.add(new Article(articleRow));
+    }
+
+    return articles;
   }
 }

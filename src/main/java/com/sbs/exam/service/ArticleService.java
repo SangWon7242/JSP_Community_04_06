@@ -1,6 +1,7 @@
 package com.sbs.exam.service;
 
 import com.sbs.exam.Rq;
+import com.sbs.exam.dto.Article;
 import com.sbs.exam.repository.ArticleRepository;
 
 import java.sql.Connection;
@@ -26,12 +27,12 @@ public class ArticleService {
     return totalPage;
   }
 
-  public List<Map<String, Object>> getForPrintArticleRows(int page) {
+  public List<Article> getForPrintArticles(int page) {
     int itemInAPage = getItemsInAPage();
     int limitFrom = (page - 1) * itemInAPage;
 
-    List<Map<String, Object>> articleRows = articleRepository.getArticleRows(limitFrom, itemInAPage);
+    List<Article> articles = articleRepository.getArticles(limitFrom, itemInAPage);
 
-    return articleRows;
+    return articles;
   }
 }
