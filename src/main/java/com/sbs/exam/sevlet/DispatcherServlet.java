@@ -20,22 +20,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet("/s/*")
+@WebServlet("/usr/*")
 public class DispatcherServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     Rq rq = new Rq(req, resp);
-
-    String requestUri = req.getRequestURI();
-    String[] requestUriBits = requestUri.split("/");
-
-    if(requestUriBits.length < 4) {
-      rq.appendBody("올바른 요청이 아닙니다.");
-      return;
-    }
-
-    String controllerName = requestUriBits[2];
-    String actionMethodName = requestUriBits[3];
 
     // DB 연결시작
     Connection conn = null;
@@ -73,12 +62,14 @@ public class DispatcherServlet extends HttpServlet {
       req.setAttribute("loginedMemberRow", loginedMemberRow);
       // 모든 요청을 들어가기 전에 무조건 해야 하는 일 끝
 
-      if(controllerName.equals("article")) {
-        ArticleController articleController = new ArticleController(conn);
-
-        if(actionMethodName.equals("list")) {
-          articleController.actionList(rq);
-        }
+      switch (rq.getControllerTypeName()) {
+        case "usr" :
+          ArticleController articleController = new ArticleController(conn);
+          switch (rq.getControllerName()) {
+            case "article":
+              articleController.performAction(rq);
+              break;
+          }
       }
 
     } catch (SQLException e) {
