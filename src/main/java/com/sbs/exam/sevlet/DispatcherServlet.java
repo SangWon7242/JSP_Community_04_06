@@ -1,8 +1,8 @@
 package com.sbs.exam.sevlet;
 
-import com.mysql.cj.Session;
 import com.sbs.exam.Config;
 import com.sbs.exam.Rq;
+import com.sbs.exam.controller.ArticleController;
 import com.sbs.exam.exception.SQLErrorException;
 import com.sbs.exam.util.DBUtil;
 import com.sbs.exam.util.SecSql;
@@ -20,11 +20,22 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet("/article/list")
-public class ArticleListServlet extends HttpServlet {
+@WebServlet("/s/*")
+public class DispatcherServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     Rq rq = new Rq(req, resp);
+
+    String requestUri = req.getRequestURI();
+    String[] requestUriBits = requestUri.split("/");
+
+    if(requestUriBits.length < 4) {
+      rq.appendBody("올바른 요청이 아닙니다.");
+      return;
+    }
+
+    String controllerName = requestUriBits[2];
+    String actionMethodName = requestUriBits[3];
 
     // DB 연결시작
     Connection conn = null;
@@ -41,7 +52,7 @@ public class ArticleListServlet extends HttpServlet {
     try {
       conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBId(), Config.getDBPw());
 
-      // 공통 상단 정보 시작
+      // 모든 요청을 들어가기 전에 무조건 해야 하는 일 시작
       HttpSession session = req.getSession();
 
       boolean isLogined = false;
@@ -60,31 +71,15 @@ public class ArticleListServlet extends HttpServlet {
       req.setAttribute("isLogined", isLogined);
       req.setAttribute("loginedMemberId", loginedMemberId);
       req.setAttribute("loginedMemberRow", loginedMemberRow);
-      // 공통 상단 정보 끝
+      // 모든 요청을 들어가기 전에 무조건 해야 하는 일 끝
 
-      int page = rq.getIntParam("page", 1);
-      int itemInAPage = 10;
-      int limitFrom = (page - 1) * itemInAPage;
+      if(controllerName.equals("article")) {
+        ArticleController articleController = new ArticleController(rq, conn);
 
-      SecSql sql = SecSql.from("SELECT COUNT(*) AS cnt");
-      sql.append("FROM article");
-
-      int totalCount = DBUtil.selectRowIntValue(conn, sql);
-      int totalPage = (int) Math.ceil((double) totalCount / itemInAPage);
-
-      sql = new SecSql();
-      sql.append("SELECT *");
-      sql.append("FROM article");
-      sql.append("ORDER BY id DESC");
-      sql.append("LIMIT ?, ?", limitFrom, itemInAPage);
-
-      List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
-
-      req.setAttribute("articleRows", articleRows);
-      req.setAttribute("page", page);
-      req.setAttribute("totalPage", totalPage);
-
-      rq.jsp("../article/list");
+        if(actionMethodName.equals("list")) {
+          articleController.actionList();
+        }
+      }
 
     } catch (SQLException e) {
       e.printStackTrace();

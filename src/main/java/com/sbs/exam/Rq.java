@@ -26,6 +26,10 @@ public class Rq {
     resp.setContentType("text/html; charset-utf-8");
   }
 
+  public HttpServletRequest getReq() {
+    return req;
+  }
+
   public int getIntParam(String paramName, int defaultValue) {
     String value = req.getParameter(paramName);
 
