@@ -74,7 +74,7 @@ public class DispatcherServlet extends HttpServlet {
       // 모든 요청을 들어가기 전에 무조건 해야 하는 일 끝
 
       if(controllerName.equals("article")) {
-        ArticleController articleController = new ArticleController(rq, conn);
+        ArticleController articleController = new ArticleController(conn);
 
         if(actionMethodName.equals("list")) {
           articleController.actionList(rq);

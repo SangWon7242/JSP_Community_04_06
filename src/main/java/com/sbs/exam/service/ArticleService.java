@@ -1,19 +1,16 @@
 package com.sbs.exam.service;
 
 import com.sbs.exam.Rq;
-import com.sbs.exam.util.DBUtil;
-import com.sbs.exam.util.SecSql;
+import com.sbs.exam.repository.ArticleRepository;
 
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
 public class ArticleService {
-  private Rq rq;
-  private Connection conn;
-  public ArticleService(Rq rq, Connection conn) {
-    this.rq = rq;
-    this.conn = conn;
+  private ArticleRepository articleRepository;
+  public ArticleService(Connection conn) {
+    articleRepository = new ArticleRepository(conn);
   }
 
   public int getItemsInAPage() {
@@ -23,10 +20,7 @@ public class ArticleService {
   public int getForPrintListTotalPage() {
     int itemInAPage = getItemsInAPage();
 
-    SecSql sql = SecSql.from("SELECT COUNT(*) AS cnt");
-    sql.append("FROM article");
-
-    int totalCount = DBUtil.selectRowIntValue(conn, sql);
+    int totalCount = articleRepository.getTotalCount();
     int totalPage = (int) Math.ceil((double) totalCount / itemInAPage);
 
     return totalPage;
@@ -36,13 +30,7 @@ public class ArticleService {
     int itemInAPage = getItemsInAPage();
     int limitFrom = (page - 1) * itemInAPage;
 
-    SecSql sql = new SecSql();
-    sql.append("SELECT *");
-    sql.append("FROM article");
-    sql.append("ORDER BY id DESC");
-    sql.append("LIMIT ?, ?", limitFrom, itemInAPage);
-
-    List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
+    List<Map<String, Object>> articleRows = articleRepository.getArticleRows(limitFrom, itemInAPage);
 
     return articleRows;
   }
