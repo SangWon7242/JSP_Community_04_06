@@ -2,7 +2,9 @@ package com.sbs.exam.service;
 
 import com.sbs.exam.Rq;
 import com.sbs.exam.dto.Article;
+import com.sbs.exam.dto.ResultData;
 import com.sbs.exam.repository.ArticleRepository;
+import com.sbs.exam.util.Util;
 
 import java.sql.Connection;
 import java.util.List;
@@ -34,5 +36,10 @@ public class ArticleService {
     List<Article> articles = articleRepository.getArticles(limitFrom, itemInAPage);
 
     return articles;
+  }
+
+  public ResultData write(String title, String body, int loginedMemberId) {
+    int id = articleRepository.write(title, body, loginedMemberId);
+    return ResultData.from("S-1", Util.f("%d번 게시물이 생성되었습니다", id), "id", id);
   }
 }

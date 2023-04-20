@@ -1,5 +1,6 @@
 package com.sbs.exam;
 
+import com.sbs.exam.util.Util;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -72,14 +73,6 @@ public class Rq {
    return value;
   }
 
-  public void appendBody(String str) {
-    try {
-      resp.getWriter().append(str);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
   public void jsp(String jspPath) {
     RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/" + jspPath + ".jsp");
 
@@ -100,5 +93,28 @@ public class Rq {
 
   public String getActionMethodName() {
     return actionMethodName;
+  }
+
+  public void print(String str) {
+    try {
+      resp.getWriter().append(str);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void println(String str) {
+    print(str + "\n");
+  }
+
+  public void printf(String format, Object... args) {
+    print(Util.f(format, args));
+  }
+
+  public void historyBack(String msg) {
+    println("<script>");
+    printf("alert('%s');\n", msg);
+    println("history.back();");
+    println("</script>");
   }
 }

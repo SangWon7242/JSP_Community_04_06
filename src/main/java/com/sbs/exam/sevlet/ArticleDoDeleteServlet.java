@@ -46,7 +46,7 @@ public class ArticleDoDeleteServlet extends HttpServlet {
 
       DBUtil.delete(conn, sql);
 
-      rq.appendBody("<script>alert('%d번 글이 삭제되었습니다.'); location.replace('list');</script>".formatted(id));
+      rq.print("<script>alert('%d번 글이 삭제되었습니다.'); location.replace('list');</script>".formatted(id));
 
     } catch (SQLException e) {
       e.printStackTrace();
