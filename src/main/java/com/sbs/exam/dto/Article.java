@@ -1,7 +1,13 @@
 package com.sbs.exam.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Map;
 
+@Data
+@NoArgsConstructor
 public class Article {
   public int id;
   public String regDate;
@@ -9,10 +15,6 @@ public class Article {
   public String title;
   public String body;
   public int memberId;
-
-  public Article() {
-
-  }
 
   public Article(Map<String, Object> row) {
     this.id = (int) row.get("id");

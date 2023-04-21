@@ -5,17 +5,25 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Data;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class Rq {
+  @Getter
   private HttpServletRequest req;
   private HttpServletResponse resp;
+  @Getter
   private String controllerTypeName;
+  @Getter
   private String controllerName;
+  @Getter
   private String actionMethodName;
-  boolean isInvalid = false;
+  @Getter
+  private boolean isInvalid = false;
 
   public Rq(HttpServletRequest req, HttpServletResponse resp) {
     this.req = req;
@@ -43,10 +51,6 @@ public class Rq {
     this.controllerTypeName = requestUriBits[1];
     this.controllerName = requestUriBits[2];
     this.actionMethodName = requestUriBits[3];
-  }
-
-  public HttpServletRequest getReq() {
-    return req;
   }
 
   public int getIntParam(String paramName, int defaultValue) {
@@ -81,18 +85,6 @@ public class Rq {
     } catch (ServletException | IOException e) {
       e.printStackTrace();
     }
-  }
-
-  public String getControllerTypeName() {
-    return controllerTypeName;
-  }
-
-  public String getControllerName() {
-    return controllerName;
-  }
-
-  public String getActionMethodName() {
-    return actionMethodName;
   }
 
   public void print(String str) {
