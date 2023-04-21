@@ -42,4 +42,8 @@ public class ArticleService {
     int id = articleRepository.write(title, body, loginedMemberId);
     return ResultData.from("S-1", Util.f("%d번 게시물이 생성되었습니다", id), "id", id);
   }
+
+  public Article getForPrintArticleById(int id) {
+    return articleRepository.getForPrintArticleById(id);
+  }
 }

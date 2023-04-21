@@ -124,4 +124,7 @@ public class Rq {
     printf("location.replace('%s');\n", redirectUri);
     println("</script>");
   }
+  public void setAttr(String  attrName, Object attrValue) {
+    req.setAttribute(attrName, attrValue);
+  }
 }

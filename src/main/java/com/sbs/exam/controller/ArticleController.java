@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 
 public class ArticleController extends Controller {
   private ArticleService articleService;
@@ -29,10 +30,26 @@ public class ArticleController extends Controller {
       case "doWrite":
         actionDoWrite(rq);
         break;
+      case "detail":
+        actionDetailList(rq);
       default:
         rq.println("존재하지 않는 페이지입니다.");
         break;
     }
+  }
+
+  private void actionDetailList(Rq rq) {
+    int id = rq.getIntParam("id", 0);
+
+    if(id == 0) {
+      rq.historyBack("id를 입력해주세요.");
+      return;
+    }
+
+    Article article = articleService.getForPrintArticleById(id);
+
+    rq.setAttr("article", article);
+    rq.jsp("../article/detail");
   }
 
   private void actionWrite(Rq rq) {
