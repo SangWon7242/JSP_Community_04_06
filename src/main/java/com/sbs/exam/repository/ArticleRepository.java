@@ -62,4 +62,13 @@ public class ArticleRepository {
 
     return new Article(DBUtil.selectRow(conn, sql));
   }
+
+  public void delete(int id) {
+    SecSql sql = new SecSql();
+    sql.append("DELETE");
+    sql.append("FROM article");
+    sql.append("WHERE id = ?", id);
+
+    DBUtil.delete(conn, sql);
+  }
 }

@@ -4,6 +4,9 @@ import com.sbs.exam.Rq;
 import com.sbs.exam.dto.Article;
 import com.sbs.exam.dto.ResultData;
 import com.sbs.exam.service.ArticleService;
+import com.sbs.exam.util.DBUtil;
+import com.sbs.exam.util.SecSql;
+import com.sbs.exam.util.Util;
 import jakarta.servlet.http.HttpSession;
 
 import java.sql.Connection;
@@ -11,6 +14,7 @@ import java.util.List;
 
 public class ArticleController extends Controller {
   private ArticleService articleService;
+
   public ArticleController(Connection conn) {
     articleService = new ArticleService(conn);
   }
@@ -29,16 +33,40 @@ public class ArticleController extends Controller {
         break;
       case "detail":
         actionDetailList(rq);
+        break;
+      case "doDelete":
+        actionDoDelete(rq);
+        break;
       default:
         rq.println("존재하지 않는 페이지입니다.");
         break;
     }
   }
 
+  private void actionDoDelete(Rq rq) {
+    int id = rq.getIntParam("id", 0);
+    String redirectUri = rq.getParam("redirectUri", "../article/list");
+
+    if(id == 0) {
+      rq.historyBack("id를 입력해주세요.");
+      return;
+    }
+
+    Article article = articleService.getForPrintArticleById(id);
+
+    if(article == null) {
+      rq.historyBack(Util.f("%d번 게시물이 존재하지 않습니다.", id));
+      return;
+    }
+
+    articleService.delete(id);
+    rq.replace(Util.f("%d번 게시물을 삭제하였습니다.", id), redirectUri);
+  }
+
   private void actionDetailList(Rq rq) {
     int id = rq.getIntParam("id", 0);
 
-    if(id == 0) {
+    if (id == 0) {
       rq.historyBack("id를 입력해주세요.");
       return;
     }
@@ -56,7 +84,7 @@ public class ArticleController extends Controller {
   private void actionDoWrite(Rq rq) {
     HttpSession session = rq.getReq().getSession();
 
-    if(session.getAttribute("loginedMemberId") == null) {
+    if (session.getAttribute("loginedMemberId") == null) {
       rq.print("<script>alert('로그인 후 이용해주세요.'); location.replace('../member/login');</script>");
       return;
     }
@@ -67,12 +95,12 @@ public class ArticleController extends Controller {
 
     int loginedMemberId = (int) session.getAttribute("loginedMemberId");
 
-    if(title.length() == 0) {
+    if (title.length() == 0) {
       rq.historyBack("title을 입력해주세요.");
       return;
     }
 
-    if(body.length() == 0) {
+    if (body.length() == 0) {
       rq.historyBack("body를 입력해주세요.");
       return;
     }

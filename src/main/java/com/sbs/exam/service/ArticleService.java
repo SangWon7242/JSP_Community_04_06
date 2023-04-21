@@ -4,6 +4,8 @@ import com.sbs.exam.Rq;
 import com.sbs.exam.dto.Article;
 import com.sbs.exam.dto.ResultData;
 import com.sbs.exam.repository.ArticleRepository;
+import com.sbs.exam.util.DBUtil;
+import com.sbs.exam.util.SecSql;
 import com.sbs.exam.util.Util;
 
 import java.sql.Connection;
@@ -45,5 +47,10 @@ public class ArticleService {
 
   public Article getForPrintArticleById(int id) {
     return articleRepository.getForPrintArticleById(id);
+  }
+
+  public ResultData delete(int id) {
+    articleRepository.delete(id);
+    return ResultData.from("S-1", Util.f("%d번 게시물이 삭제되었습니다.", id), "id", id);
   }
 }
