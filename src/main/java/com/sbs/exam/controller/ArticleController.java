@@ -49,6 +49,8 @@ public class ArticleController extends Controller {
 
     String title = rq.getParam("title", "");
     String body = rq.getParam("body", "");
+    String redirectUri = rq.getParam("redirectUri", "../article/list");
+
     int loginedMemberId = (int) session.getAttribute("loginedMemberId");
 
     if(title.length() == 0) {
@@ -62,8 +64,11 @@ public class ArticleController extends Controller {
     }
 
     ResultData writeRd = articleService.write(title, body, loginedMemberId);
+    int id = (int) writeRd.getBody().get("id");
+    redirectUri = redirectUri.replace("[NEW_ID]", id + "");
 
-    rq.printf(writeRd.getMsg());
+    // rq.printf(writeRd.getMsg());
+    rq.replace(writeRd.getMsg(), redirectUri);
   }
 
   public void actionList(Rq rq) {
