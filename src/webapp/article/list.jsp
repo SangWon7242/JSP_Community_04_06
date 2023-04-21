@@ -1,14 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="com.sbs.exam.dto.Article" %>
-
-<%
-  List<Article> articles = (List<Article>) request.getAttribute("articles");
-  int cPage = (int) request.getAttribute("page");
-  int totalPage = (int) request.getAttribute("totalPage");
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!doctype html>
 <html lang="ko">
@@ -25,7 +16,7 @@
     &nbsp;
     <a href="write">게시물 작성</a>
   </div>
-  
+
   <table border="1" style="text-align:center;">
     <colgroup>
       <col width="100">
@@ -42,20 +33,18 @@
       </tr>
     </thead>
     <tbody>
-        <%
-        for( Article article : articles ) {
-        %>
+        <c:forEach items="${articles}" var="article">
         <tr>
-          <td><%= article.id %>번</td>
-          <td><%= article.regDate %></td>
-          <td><%= article.updateDate%></td>
+          <td>${article.id} 번</td>
+          <td>${article.regDate}</td>
+          <td>${article.updateDate}</td>
           <td>
-            <a href="detail?id=<%= article.id %>">
-              <%= article.title %>
+            <a href="detail?id=${article.id}">
+              ${article.title}
             </a>
           </td>
         </tr>
-        <% } %>
+        </c:forEach>
     </tbody>
   </table>
 
@@ -65,32 +54,33 @@
     }
   </style>
 
+  <c:set var="cPage" value="${page}" />
+  <c:set var="totalPage" value="${totalPage}" />
+  <c:set var="pageMenuSize" value="5" />
+  <c:set var="from" value="${cPage - pageMenuSize}" />
+
   <div class="page">
-    <% if( cPage > 1 ) { %>
+    <c:if test="${cPage > 1}" >
       <a href="list?page=1">◀</a>
-    <% } %>
+    </c:if>
 
-    <%
-    int pageMenuSize = 5;
-    int from = cPage - pageMenuSize;
+    <c:set var="start" value="${from < 1 ? 1 : from}" />
 
-    if(from < 1) {
-      from = 1;
-    }
+    <c:set var="end" value="${cPage + 10}" />
 
-    int end = cPage + 10;
-    if(end > totalPage) {
-      end = totalPage;
-    }
+    <c:if test="${end > totalPage}" >
+      <c:set var="end" value="${totalPage}" />
+    </c:if>
 
-    for(int i = from; i <= end; i++) {
-    %>
-      <a class="<%= cPage == i ? "red" : "" %>" href="list?page=<%=i%>"><%=i%></a>
-    <% } %>
+    <c:forEach var="i" begin="${start}" end="${end}" step="1">
+      <c:set var="aClassRed" value="${cPage == i ? 'red' : ''}" />
+      <a class="${aClassRed}" href="list?page=${i}">${i}</a>
+    </c:forEach>
 
-    <% if( cPage < totalPage ) { %>
-      <a href="list?page=<%= totalPage %>">▶</a>
-    <% } %>
+    <c:if test="${cPage < totalPage}">
+      <a href="list?page=${totalPage}">▶</a>
+    </c:if>
+
   </div>
 
 </body>
