@@ -1,5 +1,7 @@
 package com.sbs.exam.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -106,6 +108,16 @@ public class Util {
     }
 
     return map;
+  }
+
+  public static String toJson(Object obj, String defaultValue) {
+    ObjectMapper om = new ObjectMapper();
+
+    try {
+      return om.writeValueAsString(obj);
+    } catch (JsonProcessingException e) {
+      return defaultValue;
+    }
   }
 }
 
