@@ -1,16 +1,12 @@
 package com.sbs.exam.service;
 
-import com.sbs.exam.Rq;
 import com.sbs.exam.dto.Article;
 import com.sbs.exam.dto.ResultData;
 import com.sbs.exam.repository.ArticleRepository;
-import com.sbs.exam.util.DBUtil;
-import com.sbs.exam.util.SecSql;
 import com.sbs.exam.util.Util;
 
 import java.sql.Connection;
 import java.util.List;
-import java.util.Map;
 
 public class ArticleService {
   private ArticleRepository articleRepository;
