@@ -71,4 +71,20 @@ public class ArticleRepository {
 
     DBUtil.delete(conn, sql);
   }
+
+  public void modify(int id, String title, String body) {
+    SecSql sql = SecSql.from("UPDATE article");
+    sql.append("SET updateDate = NOW()");
+
+    if(title != null) {
+      sql.append(", title = ?", title);
+    }
+
+    if(body != null) {
+      sql.append(", body = ?", body);
+    }
+    sql.append("WHERE id = ?", id);
+
+    DBUtil.update(conn, sql);
+  }
 }
