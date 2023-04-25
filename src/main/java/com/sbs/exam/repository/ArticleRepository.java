@@ -75,7 +75,6 @@ public class ArticleRepository {
   public void modify(int id, String title, String body) {
     SecSql sql = SecSql.from("UPDATE article");
     sql.append("SET updateDate = NOW()");
-
     if(title != null) {
       sql.append(", title = ?", title);
     }
