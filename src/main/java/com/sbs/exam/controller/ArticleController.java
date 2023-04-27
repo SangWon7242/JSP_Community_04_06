@@ -3,11 +3,13 @@ package com.sbs.exam.controller;
 import com.sbs.exam.Rq;
 import com.sbs.exam.container.Container;
 import com.sbs.exam.dto.Article;
+import com.sbs.exam.dto.Member;
 import com.sbs.exam.dto.ResultData;
 import com.sbs.exam.service.ArticleService;
 import com.sbs.exam.util.Util;
 import jakarta.servlet.http.HttpSession;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class ArticleController extends Controller {
@@ -126,9 +128,9 @@ public class ArticleController extends Controller {
   }
 
   private void actionDoWrite(Rq rq) {
-    HttpSession session = rq.getReq().getSession();
+    String loginedMemberJson = rq.getSessionAttr("loginedMemberJson");
 
-    if (session.getAttribute("loginedMemberId") == null) {
+    if (loginedMemberJson == null) {
       rq.print("<script>alert('로그인 후 이용해주세요.'); location.replace('../member/login');</script>");
       return;
     }
@@ -137,7 +139,7 @@ public class ArticleController extends Controller {
     String body = rq.getParam("body", "");
     String redirectUri = rq.getParam("redirectUri", "../article/list");
 
-    int loginedMemberId = (int) session.getAttribute("loginedMemberId");
+    Member loginedMember = Util.toObjFromJson(loginedMemberJson, Member.class);
 
     if (title.length() == 0) {
       rq.historyBack("title을 입력해주세요.");
@@ -149,11 +151,10 @@ public class ArticleController extends Controller {
       return;
     }
 
-    ResultData writeRd = articleService.write(title, body, loginedMemberId);
+    ResultData writeRd = articleService.write(title, body, loginedMember.getId());
     int id = (int) writeRd.getBody().get("id");
     redirectUri = redirectUri.replace("[NEW_ID]", id + "");
 
-    // rq.printf(writeRd.getMsg());
     rq.replace(writeRd.getMsg(), redirectUri);
   }
 

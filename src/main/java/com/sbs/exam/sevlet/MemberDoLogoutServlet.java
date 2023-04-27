@@ -44,7 +44,6 @@ public class MemberDoLogoutServlet extends HttpServlet {
 
       rq.print("<script>alert('로그아웃 되었습니다.'); location.replace('../home/main');</script>");
 
-
     } catch (SQLException e) {
       e.printStackTrace();
     } catch (SQLErrorException e) {
