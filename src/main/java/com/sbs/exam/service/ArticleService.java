@@ -1,5 +1,6 @@
 package com.sbs.exam.service;
 
+import com.sbs.exam.container.Container;
 import com.sbs.exam.dto.Article;
 import com.sbs.exam.dto.ResultData;
 import com.sbs.exam.repository.ArticleRepository;
@@ -9,10 +10,7 @@ import java.sql.Connection;
 import java.util.List;
 
 public class ArticleService {
-  private ArticleRepository articleRepository;
-  public ArticleService(Connection conn) {
-    articleRepository = new ArticleRepository(conn);
-  }
+  private ArticleRepository articleRepository = Container.articleRepository;
 
   public int getItemsInAPage() {
     return 10;
