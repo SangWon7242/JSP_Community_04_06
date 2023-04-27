@@ -27,6 +27,22 @@ public class Rq {
   @Getter
   private boolean isInvalid = false;
 
+  @Getter
+  @Setter
+  private boolean isLogined = false;
+
+  @Getter
+  @Setter
+  private int loginedMemberId = 0;
+
+  @Getter
+  @Setter
+  private String loginedMemberName = null;
+
+  @Getter
+  @Setter
+  private Member loginedMember = null;
+
   public Rq(HttpServletRequest req, HttpServletResponse resp) {
     this.req = req;
     this.resp = resp;
@@ -133,5 +149,13 @@ public class Rq {
 
   public <T> T getSessionAttr(String attrName) {
     return (T) req.getSession().getAttribute(attrName);
+  }
+
+  public String getActionPath() {
+    return "/" + controllerTypeName + "/" + controllerName + "/" + actionMethodName;
+  }
+
+  public boolean isNotLogined() {
+    return isLogined == false;
   }
 }
