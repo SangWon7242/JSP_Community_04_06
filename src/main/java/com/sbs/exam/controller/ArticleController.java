@@ -8,7 +8,6 @@ import com.sbs.exam.service.ArticleService;
 import com.sbs.exam.util.Util;
 import jakarta.servlet.http.HttpSession;
 
-import java.sql.Connection;
 import java.util.List;
 
 public class ArticleController extends Controller {
