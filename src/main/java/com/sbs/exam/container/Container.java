@@ -19,32 +19,32 @@ public class Container {
   public static NeedLoginInterceptor needLoginInterceptor;
   public static NeedLogoutInterceptor needLogoutInterceptor;
 
-  public static ArticleRepository articleRepository;
   public static MemberRepository memberRepository;
+  public static ArticleRepository articleRepository;
 
-  public static ArticleService articleService;
   public static MemberService memberService;
+  public static ArticleService articleService;
 
 
-  public static HomeController homeController;
-  public static ArticleController articleController;
   public static MemberController memberController;
+  public static ArticleController articleController;
+  public static HomeController homeController;
 
   public static Connection conn;
 
   public static void init() {
-    articleRepository = new ArticleRepository();
     memberRepository = new MemberRepository();
+    articleRepository = new ArticleRepository();
 
-    articleService = new ArticleService();
     memberService = new MemberService();
+    articleService = new ArticleService();
 
     beforeActionInterceptor = new BeforeActionInterceptor();
     needLoginInterceptor = new NeedLoginInterceptor();
     needLogoutInterceptor = new NeedLogoutInterceptor();
 
-    homeController = new HomeController();
-    articleController = new ArticleController();
     memberController = new MemberController();
+    articleController = new ArticleController();
+    homeController = new HomeController();
   }
 }

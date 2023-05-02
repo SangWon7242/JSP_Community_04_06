@@ -1,23 +1,31 @@
 package com.sbs.exam.repository;
 
 import com.sbs.exam.container.Container;
+import com.sbs.exam.dto.Article;
+import com.sbs.exam.dto.Member;
 import com.sbs.exam.util.DBUtil;
 import com.sbs.exam.util.SecSql;
 
-import com.sbs.exam.dto.Member;
-import java.sql.Connection;
+import java.util.Map;
 
 public class MemberRepository {
   public Member getMemberByLoginId(String loginId) {
-    SecSql sql = SecSql.from("SELECT *");
+    SecSql sql = new SecSql();
+    sql.append("SELECT *");
     sql.append("FROM member");
     sql.append("WHERE loginId = ?", loginId);
 
-    return new Member(DBUtil.selectRow(Container.conn, sql));
+    Map<String, Object> getMember = DBUtil.selectRow(Container.conn, sql);
+
+    if(getMember.isEmpty()) {
+      return null;
+    }
+
+    return new Member(getMember);
   }
 
   public int join(String loginId, String loginPw, String name) {
-    SecSql sql = SecSql.from("INSERT INTO member");
+    SecSql sql = SecSql.from("INSERT INTO `member`");
     sql.append("SET regDate = NOW()");
     sql.append(", updateDate = NOW()");
     sql.append(", loginId = ?", loginId);
@@ -27,5 +35,13 @@ public class MemberRepository {
     int id = DBUtil.insert(Container.conn, sql);
 
     return id;
+  }
+
+  public boolean isJoinDuplicateLoginId(String loginId) {
+    SecSql sql = SecSql.from("SELECT COUNT(*) AS cnt");
+    sql.append("FROM member");
+    sql.append("WHERE loginId = ?", loginId);
+
+    return DBUtil.selectRowIntValue(Container.conn, sql) == 0;
   }
 }
