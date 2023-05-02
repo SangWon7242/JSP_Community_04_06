@@ -43,6 +43,10 @@ public class Rq {
   @Setter
   private Member loginedMember = null;
 
+  public boolean isNotLogined() {
+    return isLogined == false;
+  }
+
   public Rq(HttpServletRequest req, HttpServletResponse resp) {
     this.req = req;
     this.resp = resp;
@@ -153,9 +157,5 @@ public class Rq {
 
   public String getActionPath() {
     return "/" + controllerTypeName + "/" + controllerName + "/" + actionMethodName;
-  }
-
-  public boolean isNotLogined() {
-    return isLogined == false;
   }
 }

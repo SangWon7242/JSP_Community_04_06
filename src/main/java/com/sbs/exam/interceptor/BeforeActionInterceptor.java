@@ -19,6 +19,7 @@ public class BeforeActionInterceptor extends Interceptor {
 
     rq.setAttr("rq", rq);
     // 모든 요청을 들어가기 전에 무조건 해야 하는 일 끝
+
     return true;
   }
 }
