@@ -15,13 +15,7 @@ public class MemberRepository {
     sql.append("FROM member");
     sql.append("WHERE loginId = ?", loginId);
 
-    Map<String, Object> getMember = DBUtil.selectRow(Container.conn, sql);
-
-    if(getMember.isEmpty()) {
-      return null;
-    }
-
-    return new Member(getMember);
+    return new Member(DBUtil.selectRow(Container.conn, sql));
   }
 
   public int join(String loginId, String loginPw, String name) {
@@ -43,5 +37,15 @@ public class MemberRepository {
     sql.append("WHERE loginId = ?", loginId);
 
     return DBUtil.selectRowIntValue(Container.conn, sql) == 0;
+  }
+
+  public Member getMemberByName(String name) {
+
+    SecSql sql = new SecSql();
+    sql.append("SELECT *");
+    sql.append("FROM member");
+    sql.append("WHERE name = ?", name);
+
+    return new Member(DBUtil.selectRow(Container.conn, sql));
   }
 }
