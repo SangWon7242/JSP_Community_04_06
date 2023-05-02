@@ -30,10 +30,24 @@ public class MemberController extends Controller {
       case "doJoin":
         actionDoJoin(rq);
         break;
+      case "findLoginId":
+        actionShowFindLoginId(rq);
+        break;
+      case "doFindLoginId":
+        actionDoFindLoginId(rq);
+        break;
       default:
         rq.println("존재하지 않는 페이지입니다.");
         break;
     }
+  }
+
+
+  private void actionShowFindLoginId(Rq rq) {
+    rq.jsp("../member/findLoginId");
+  }
+
+  private void actionDoFindLoginId(Rq rq) {
   }
 
   private void actionDoJoin(Rq rq) {

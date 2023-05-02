@@ -36,8 +36,9 @@
   <form action="doLogin" method="POST" onsubmit="LoginForm__submit(this); return false">
     <div>로그인 아이디 : <input placeholder="로그인 아이디를 입력해주세요." name="loginId" type="text"></div>
     <div>로그인 패스워드 : <input placeholder="로그인 비번을 입력해주세요." name="loginPw" type="password"></div>
-    <div>
+    <div class="btns">
       <button type="submit">로그인</button>
+      <button type="../member/findLoginId">아이디찾기</button>
       <button type="button">
         <a href="../home/main">취소</a>
       </button>
