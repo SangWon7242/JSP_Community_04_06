@@ -7,8 +7,8 @@
 <section class="section-article-list">
   <div class="con mx-auto">
     <div class="mt-[50px] flex justify-end">
-      <a href="../home/main" class="hover:underline">홈으로 돌아가기</a>&nbsp;
-      <a href="write" class="hover:underline">게시물 작성</a>
+      <a href="../home/main" class="badge badge-primary hover:underline">홈으로 돌아가기</a>&nbsp;
+      <a href="write" class="badge badge-secondary hover:underline">게시물 작성</a>
     </div>
 
     <div class="overflow-x-auto mt-[10px]">
@@ -43,11 +43,6 @@
         </tbody>
       </table>
     </div>
-    <style>
-    .page > a.red {
-      color: red;
-    }
-    </style>
 
     <div class="page btn-group flex justify-center">
       <c:set var="cPage" value="${page}"/>
@@ -56,7 +51,7 @@
       <c:set var="from" value="${cPage - pageMenuSize}"/>
 
       <c:if test="${cPage > 1}">
-        <a href="list?page=1">◀</a>
+        <a class="btn" href="list?page=1">◀</a>
       </c:if>
 
       <c:set var="start" value="${from < 1 ? 1 : from}"/>
@@ -68,12 +63,12 @@
       </c:if>
 
       <c:forEach var="i" begin="${start}" end="${end}" step="1">
-        <c:set var="aClassRed" value="${cPage == i ? 'red' : ''}"/>
-        <button  class="btn ${aClassRed}" href="list?page=${i}">${i}</button>
+        <c:set var="active" value="${cPage == i ? 'btn-active' : ''}"/>
+        <a class="btn ${active}" href="list?page=${i}">${i}</a>
       </c:forEach>
 
       <c:if test="${cPage < totalPage}">
-        <a href="list?page=${totalPage}">▶</a>
+        <a class="btn" href="list?page=${totalPage}">▶</a>
       </c:if>
     </div>
   </div>
