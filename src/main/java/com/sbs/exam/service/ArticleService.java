@@ -7,7 +7,6 @@ import com.sbs.exam.dto.ResultData;
 import com.sbs.exam.repository.ArticleRepository;
 import com.sbs.exam.util.Util;
 
-import java.sql.Connection;
 import java.util.List;
 
 public class ArticleService {
@@ -40,8 +39,24 @@ public class ArticleService {
     return ResultData.from("S-1", Util.f("%d번 게시물이 생성되었습니다", id), "id", id);
   }
 
-  public Article getForPrintArticleById(int id) {
-    return articleRepository.getForPrintArticleById(id);
+  public Article getForPrintArticleById(Member member, int id) {
+    Article article = articleRepository.getForPrintArticleById(id);
+
+    updateForPrintData(member, article);
+
+    return article;
+  }
+
+  public void updateForPrintData(Member actor, Article article) {
+    if(actor == null) {
+      return;
+    }
+
+    boolean actorCanModify = actorCanModifyRd(actor, article).isSuccess();
+    boolean actorCanDelete = actorCanDeleteRd(actor, article).isSuccess();
+
+    article.setExtra__actorCanModify(actorCanModify);
+    article.setExtra__actorCanDelete(actorCanDelete);
   }
 
   public ResultData delete(int id) {

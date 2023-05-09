@@ -56,7 +56,7 @@ public class ArticleController extends Controller {
       return;
     }
 
-    Article article = articleService.getForPrintArticleById(id);
+    Article article = articleService.getForPrintArticleById(rq.getLoginedMember(), id);
 
     if(article == null) {
       rq.historyBack(Util.f("%d번 게시물이 존재하지 않습니다.", id));
@@ -92,7 +92,7 @@ public class ArticleController extends Controller {
       return;
     }
 
-    Article article = articleService.getForPrintArticleById(id);
+    Article article = articleService.getForPrintArticleById(rq.getLoginedMember(), id);
 
     if (article == null) {
       rq.historyBack(Util.f("%d번 게시물이 존재하지 않습니다.", id));
@@ -119,7 +119,7 @@ public class ArticleController extends Controller {
       return;
     }
 
-    Article article = articleService.getForPrintArticleById(id);
+    Article article = articleService.getForPrintArticleById(rq.getLoginedMember(), id);
 
     if (article == null) {
       rq.historyBack(Util.f("%d번 게시물이 존재하지 않습니다.", id));
@@ -145,7 +145,7 @@ public class ArticleController extends Controller {
       return;
     }
 
-    Article article = articleService.getForPrintArticleById(id);
+    Article article = articleService.getForPrintArticleById(rq.getLoginedMember(), id);
 
     if (article == null) {
       rq.historyBack(Util.f("%d번 게시물이 존재하지 않습니다.", id));

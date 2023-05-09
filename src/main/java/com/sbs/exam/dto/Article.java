@@ -8,12 +8,16 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 public class Article {
-  public int id;
-  public String regDate;
-  public String updateDate;
-  public String title;
-  public String body;
-  public int memberId;
+  private int id;
+  private String regDate;
+  private String updateDate;
+  private String title;
+  private String body;
+  private int memberId;
+
+  private boolean extra__writeName;
+  private boolean extra__actorCanModify;
+  private boolean extra__actorCanDelete;
 
   public Article(Map<String, Object> row) {
     this.id = (int) row.get("id");
