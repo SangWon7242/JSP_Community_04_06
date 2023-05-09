@@ -35,6 +35,7 @@
 
   <form action="doLogin" method="POST" onsubmit="LoginForm__submit(this); return false">
     <div class="login-box h-screen flex flex-col items-center justify-center">
+      <h1 class="font-bold text-[2rem] mb-[10px]">로그인</h1>
       <div class="login-box__input flex flex-col gap-y-[10px]">
         <input type="text" name="loginId" placeholder="로그인 아이디를 입력해주세요." class="input input-bordered w-[300px] max-w-xs" value="${param.loginId}"/>
         <input type="password" name="loginPw" placeholder="로그인 비밀번호를 입력해주세요." class="input input-bordered w-[300px] max-w-xs"/>
