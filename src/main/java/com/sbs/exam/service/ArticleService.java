@@ -2,6 +2,7 @@ package com.sbs.exam.service;
 
 import com.sbs.exam.container.Container;
 import com.sbs.exam.dto.Article;
+import com.sbs.exam.dto.Member;
 import com.sbs.exam.dto.ResultData;
 import com.sbs.exam.repository.ArticleRepository;
 import com.sbs.exam.util.Util;
@@ -52,5 +53,27 @@ public class ArticleService {
     articleRepository.modify(id, title, body);
 
     return ResultData.from("S-1", Util.f("%d번 게시물이 수정되었습니다.", id), "id", id);
+  }
+
+  public ResultData actorCanModifyRd(Member member, Article article) {
+    int memberId = member.getId();
+    int writeMemberId = article.getMemberId();
+
+    if(memberId != writeMemberId) {
+      return ResultData.from("F-1", "권한이 없습니다.");
+    }
+
+    return ResultData.from("S-1", "수정이 가능합니다.");
+  }
+
+  public ResultData actorCanDeleteRd(Member member, Article article) {
+    int memberId = member.getId();
+    int writeMemberId = article.getMemberId();
+
+    if(memberId != writeMemberId) {
+      return ResultData.from("F-1", "권한이 없습니다.");
+    }
+
+    return ResultData.from("S-1", "삭제가 가능합니다.");
   }
 }
