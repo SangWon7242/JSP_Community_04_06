@@ -59,6 +59,7 @@
       <c:if test="${article.extra__actorCanDelete}">
         <a onclick="if( !confirm('정말로 삭제하시겠습니까?') ) return false;" class="btn btn-primary" href="doDelete?id=${param.id}">삭제</a>
       </c:if>
+      <div></div>
     </div>
   </div>
 </section>
